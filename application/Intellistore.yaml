@@ -1,0 +1,525 @@
+openapi: 3.0.3
+info:
+  title: Intellistore - OpenAPI 3.0
+  description: |-
+    This is the api documentation for the Intellistore grocery store application. as part of the Modern Application Development 1 Project by Azfar Faheem Mustafa. 
+  version: 1.0.11
+servers:
+  - url: http://127.0.0.1:5000/
+tags:
+  - name: product
+    description: Add, Delete and Get products in every way possible
+  - name: category
+    description: Add and Delete categories.
+  - name: address
+    description: Add and get Access to user address
+  - name: user
+    description: Operations about user
+paths:
+  /product:
+    post:
+      tags:
+        - product
+      summary: Add a new product to the store
+      description: Add a new product to the store
+      operationId: addProduct
+      requestBody:
+        description: Create a new product in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '405':
+          description: Invalid input
+
+    get:
+      tags:
+        - product
+      summary: Get all the stores products
+      description: Get all the stores products as a list of dictionaries
+      operationId: getProduct
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - product
+      summary: Deletes a product
+      description: delete a product
+      operationId: deleteproduct
+      parameters:
+        - name: product_id
+          in: header
+          description: product id to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid product value
+  /product/{product_id}:
+    get:
+      tags:
+        - product
+      summary: Get product by ID
+      description: Returns a single product
+      operationId: getproductById
+      parameters:
+        - name: product_id
+          in: path
+          description: ID of product to return
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product not found
+  /product/category/{category_id}:
+    get:
+      tags:
+        - product
+      summary: Get product by Category
+      description: Returns a list of products belonging to a category
+      operationId: getProductByCategory
+      parameters:
+        - name: category_id
+          in: path
+          description: ID of category from which to return products
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product not found
+
+  /product/search/{keyword}:
+    get:
+      tags:
+        - product
+      summary: Get product by a search keyword
+      description: Returns a list of products related to the search keyword
+      operationId: getProductBySearch
+      parameters:
+        - name: keyword
+          in: path
+          description: Keyword to search products
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Products not found
+
+  
+  /category:
+    post:
+      tags:
+        - category
+      summary: Add a new category
+      description: Adds a new category
+      operationId: addCategory
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Category'
+    delete:
+      tags:
+        - category
+      summary: Delete category by ID
+      description: Deletes a category by ID
+      operationId: deleteCategory
+      parameters:
+        - name: category_id
+          in: header
+          description: ID of the category that needs to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Category not found
+    
+  /address:
+    post:
+      tags:
+        - address
+      summary: add an address for a user
+      description: add a new address to a user
+      operationId: addAddress
+      parameters:
+        - name: user_id
+          in: header
+          description: ID of the user for whom address is being added
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '405':
+          description: Invalid input
+    get:
+      tags:
+        - address
+      summary: Get all the addresses for a user
+      description: Get all the addresses for a user as a list of dictionaries
+      operationId: getAddress
+      parameters:
+        - name: user_id
+          in: header
+          description: ID of the user for whom address is being added
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '405':
+          description: Invalid input
+  /address/{address_id}:
+    get:
+      tags:
+        - address
+      summary: Get address by ID
+      description: Returns a single address
+      operationId: getAddressById
+      parameters:
+        - name: address_id
+          in: path
+          description: ID of address to return
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Address'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Address not found
+  
+  /newuser:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Registration Process
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        order_id:
+          type: integer
+          example: 10
+        user_id:
+          type: integer
+          example: 19
+        address_id:
+          type: integer
+          example: 3
+        subtotal:
+          type: number
+          example: 797
+        gst:
+          type: number
+          example: 79          
+        grandtotal:
+          type: number
+          example: 887
+        discount:
+          type: number
+          example: 100
+        payable:
+          type: number
+          example: 787
+        shipping:
+          type: number
+          example: 50
+        mobile:
+          type: string
+          example: '7977573428'
+        created_at:
+          type: string
+          example: '08-08-2023 2:23'
+        status:
+          type: string
+          description: Order Status
+          example: approved
+          enum:
+            - Not yet dispatched
+            - on the way
+            - delivered
+      xml:
+        name: order
+    
+    Address:
+      type: object
+      properties:
+        address_id:
+          type: integer
+          example: 2
+        user_id:
+          type: integer
+          example: 2
+        address:
+          type: string
+          example: Rustomjee Ozone, Goregoan-W, Mumbai-400104
+        mobile:
+          type: string
+          example: '7977573428'
+      xml:
+        name: address
+    Category:
+      type: object
+      properties:
+        category_id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Fruits and Vegetables
+      xml:
+        name: category
+        
+    Cart:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        product_id:
+          type: integer
+          example: 1
+        category_id:
+          type: integer
+          example: 1
+        qty:
+          type: integer
+          example: 3
+      xml:
+        name: cart
+        
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+          example: 10
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        mobile:
+          type: string
+          example: '12345'
+        isAdmin:
+          type: boolean
+          example: 1
+      xml:
+        name: user
+        
+    Product:
+      required:
+        - name
+        - product_id
+        - price
+        - category_id
+        - description
+      type: object
+      properties:
+        product_id:
+          type: integer
+          example: 10
+        name:
+          type: string
+          example: amul butter
+        price:
+          type: number
+          example: 280.4
+        desctiption:
+          type: string
+          example: amul butter
+        category_id:
+          $ref: '#/components/schemas/Category'
+        mfg:
+          type: string
+          example: 10-08-2023
+        exp:
+          type: string
+          example: 10-09-2023
+        stock:
+          type: integer
+          example: 10
+        unit:
+          type: string
+          example: Rs/Kg
+        image:
+          type: object
+          example: {blob}
+          
+      xml:
+        name: Product
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    Product:
+      description: Product object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Product'
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
