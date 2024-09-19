@@ -1,3 +1,5 @@
+#### Demo Video: [Click Here](https://youtu.be/IngXbmWWplw "Click Here")
+
 ## Description
 A grocery store app using the Flask framework as a server, SQLite database and Vue.JS frontend was created. The app allows users to browse products by section/category, add
 products to their cart, checkout and complete their order. The store manager can add/edit/delete products that will then instantaneously reflect in the shop. Each function of the app was carefully understood and the wireframe analyzed in depth before
@@ -27,4 +29,3 @@ implementation to avoid any logical errors.
 - datetime: Part of the Python standard library, it provides classes for representing dates
 	and times so that they can be stored in the database during order creation and updation.
 
-#### Video: [Click Here](https://youtu.be/IngXbmWWplw "Click Here")
